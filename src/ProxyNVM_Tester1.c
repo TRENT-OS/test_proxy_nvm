@@ -17,11 +17,11 @@
 #define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (MEM_SIZE / 2)
 #define TEST_ADDR_OUT_OF_BOUNDS_ADDR    (MEM_SIZE * 2)
 
-
+static char proxyBuffer[PAGE_SIZE];
 
 int run()
 {
-    int ret_value = ProxyNVMTest_init(CHANNEL_NVM_USER1_DATA);
+    int ret_value = ProxyNVMTest_init(CHANNEL_NVM_USER1_DATA, proxyBuffer);
 
     if (ret_value < 0)
     {
