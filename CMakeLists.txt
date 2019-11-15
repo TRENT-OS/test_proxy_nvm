@@ -15,6 +15,7 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
     C_FLAGS
         -Wall -Werror
     LIBS
+        seos_core_api
         seos_libs
 )
 
@@ -27,6 +28,7 @@ DeclareCAmkESComponent(ProxyNVM_Tester2
     C_FLAGS
         -Wall -Werror
     LIBS
+        seos_core_api
         seos_libs
 )
 
@@ -44,6 +46,7 @@ DeclareCAmkESComponent(ChanMux
     C_FLAGS
         -Wall -Werror
     LIBS
+        seos_core_api
         seos_libs
 )
 
