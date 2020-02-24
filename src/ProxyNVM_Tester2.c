@@ -5,16 +5,16 @@
 #include "ChanMux_config.h"
 
 
-#define MEM_SIZE                        (1024*128)
+#define MEM_SIZE                        (1024*128) // currently the fixed disk size provided by proxy for the 2nd NVM channel
 
 #define TEST_SMALL_SECTION_LEN          (MEM_SIZE / PAGE_SIZE) //arbitrary small chunk of data
 #define TEST_WHOLE_MEM_LEN              MEM_SIZE
-#define TEST_SIZE_OUT_OF_BOUNDS_LEN     MEM_SIZE
-#define TEST_ADDR_OUT_OF_BOUNDS_LEN     MEM_SIZE
+#define TEST_SIZE_OUT_OF_BOUNDS_LEN     PAGE_SIZE
+#define TEST_ADDR_OUT_OF_BOUNDS_LEN     PAGE_SIZE
 
 #define TEST_SMALL_SECTION_ADDR         (MEM_SIZE / PAGE_SIZE) //arbitrary memory address != 0
 #define TEST_WHOLE_MEM_ADDR             0
-#define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (MEM_SIZE / 2)
+#define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (MEM_SIZE - 1)
 #define TEST_ADDR_OUT_OF_BOUNDS_ADDR    (MEM_SIZE * 2)
 
 static char proxyBuffer[PAGE_SIZE];
@@ -63,5 +63,4 @@ int run()
     }
 
     return 0;
-
 }

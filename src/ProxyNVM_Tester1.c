@@ -5,16 +5,16 @@
 #include "ChanMux_config.h"
 
 
-#define MEM_SIZE                        (1024*128)
+#define MEM_SIZE                        (1024*1024*36) // currently the fixed disk size provided by proxy for the 1st NVM channel
 
 #define TEST_SMALL_SECTION_LEN          (MEM_SIZE / PAGE_SIZE) //arbitrary small chunk of data
-#define TEST_WHOLE_MEM_LEN              MEM_SIZE
-#define TEST_SIZE_OUT_OF_BOUNDS_LEN     MEM_SIZE
-#define TEST_ADDR_OUT_OF_BOUNDS_LEN     MEM_SIZE
+#define TEST_WHOLE_MEM_LEN              (1024*128) // currently a placeholder, as writing 36 MiB lasts to long based on proxy
+#define TEST_SIZE_OUT_OF_BOUNDS_LEN     PAGE_SIZE
+#define TEST_ADDR_OUT_OF_BOUNDS_LEN     PAGE_SIZE
 
 #define TEST_SMALL_SECTION_ADDR         (MEM_SIZE / PAGE_SIZE) //arbitrary memory address != 0
 #define TEST_WHOLE_MEM_ADDR             0
-#define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (MEM_SIZE / 2)
+#define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (MEM_SIZE - 1)
 #define TEST_ADDR_OUT_OF_BOUNDS_ADDR    (MEM_SIZE * 2)
 
 static char proxyBuffer[PAGE_SIZE];
@@ -39,7 +39,7 @@ int run()
         Debug_LOG_ERROR("Failed TEST SMALL SECTION!\n");
     }
 
-    isSuccess = ProxyNVMTest_run(TEST_WHOLE_MEM_ADDR, TEST_WHOLE_MEM_LEN,
+    isSuccess = ProxyNVMTest_run(TEST_WHOLE_MEM_ADDR, TEST_SMALL_SECTION_LEN,
                                  "TEST WHOLE MEMORY");
     if (!isSuccess)
     {
@@ -63,5 +63,4 @@ int run()
     }
 
     return 0;
-
 }
