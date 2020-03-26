@@ -2,7 +2,10 @@ cmake_minimum_required(VERSION 3.7.2)
 
 seos_set_config_file(config.h)
 
-seos_use_libs(SEOS_LIBS)
+seos_use_libs(
+    SEOS_LIBS
+    SEOS_CHANMUX
+)
 
 project(tests_proxy_nvm C)
 
@@ -17,6 +20,8 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
     LIBS
         seos_core_api
         seos_libs
+        chanmux_client
+        proxy_nvm
 )
 
 DeclareCAmkESComponent(ProxyNVM_Tester2
@@ -30,6 +35,8 @@ DeclareCAmkESComponent(ProxyNVM_Tester2
     LIBS
         seos_core_api
         seos_libs
+        chanmux_client
+        proxy_nvm
 )
 
 DeclareCAmkESComponent(UartDrv
@@ -48,6 +55,7 @@ DeclareCAmkESComponent(ChanMux
     LIBS
         seos_core_api
         seos_libs
+        chanmux_server
 )
 
 #ROOT SERVER
