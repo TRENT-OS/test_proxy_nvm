@@ -1,23 +1,28 @@
 cmake_minimum_required(VERSION 3.7.2)
 
-seos_set_config_file(config.h)
+seos_set_config_file(system_config.h)
 
 seos_use_libs(
     SEOS_LIBS
     SEOS_CHANMUX
 )
 
+
+project(system_config C)
+add_library(${PROJECT_NAME} INTERFACE)
+target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
+
+
 project(tests_proxy_nvm C)
 
 DeclareCAmkESComponent(ProxyNVM_Tester1
-    INCLUDES
-        components/ChanMux/src/instance
     SOURCES
         src/ProxyNVM_Tester1.c
         src/ProxyNVM_common.c
     C_FLAGS
         -Wall -Werror
     LIBS
+        system_config
         seos_core_api
         seos_libs
         chanmux_client
@@ -25,14 +30,13 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
 )
 
 DeclareCAmkESComponent(ProxyNVM_Tester2
-    INCLUDES
-        components/ChanMux/src/instance
     SOURCES
         src/ProxyNVM_Tester2.c
         src/ProxyNVM_common.c
     C_FLAGS
         -Wall -Werror
     LIBS
+        system_config
         seos_core_api
         seos_libs
         chanmux_client
@@ -53,6 +57,7 @@ DeclareCAmkESComponent(ChanMux
     C_FLAGS
         -Wall -Werror
     LIBS
+        system_config
         seos_core_api
         seos_libs
         chanmux_server

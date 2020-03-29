@@ -2,7 +2,7 @@
 #include "LibDebug/Debug.h"
 #include "camkes.h"
 #include "ProxyNVM_common.h"
-#include "ChanMux_config.h"
+#include "system_config.h"
 
 
 #define MEM_SIZE                        (1024*1024*36) // currently the fixed disk size provided by proxy for the 1st NVM channel
