@@ -11,7 +11,7 @@ project(tests_proxy_nvm C)
 
 DeclareCAmkESComponent(ProxyNVM_Tester1
     INCLUDES
-		components/ChanMux/src/instance
+        components/ChanMux/src/instance
     SOURCES
         src/ProxyNVM_Tester1.c
         src/ProxyNVM_common.c
