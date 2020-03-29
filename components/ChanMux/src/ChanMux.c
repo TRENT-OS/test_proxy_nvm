@@ -1,11 +1,11 @@
 /*
- *  WAN/LAN/NetworkStack Channel MUX
+ *  Channel MUX
  *
  *  Copyright (C) 2019, Hensoldt Cyber GmbH
  */
 
 #include "ChanMux/ChanMux.h"
-#include "ChanMux_config.h"
+#include "system_config.h"
 #include "SeosError.h"
 #include "assert.h"
 #include <camkes.h>
