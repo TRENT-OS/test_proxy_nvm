@@ -58,12 +58,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
 
     if (ret_value == length)
     {
-        Debug_LOG_INFO("\nChannel %d: %s: Write succeded!", testProxyNVM.chanmux->chan,
+        Debug_LOG_INFO("\nChannel %u: %s: Write succeded!", testProxyNVM.chanmux->chan,
                        testName);
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %d: %s: Write failed!\nTried to write %d bytes but written only %d bytes.",
+        Debug_LOG_ERROR("\nChannel %u: %s: Write failed!\nTried to write %d bytes but written only %d bytes.",
                         testProxyNVM.chanmux->chan, testName, length, ret_value);
         return false;
     }
@@ -72,12 +72,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
                               (char*)in_buf, length);
     if (ret_value == length)
     {
-        Debug_LOG_INFO("\nChannel %d: %s: Read succeded!", testProxyNVM.chanmux->chan,
+        Debug_LOG_INFO("\nChannel %u: %s: Read succeded!", testProxyNVM.chanmux->chan,
                        testName);
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %d: %s: Read failed!\nTried to read %d bytes but read only %d bytes.",
+        Debug_LOG_ERROR("\nChannel %u: %s: Read failed!\nTried to read %d bytes but read only %d bytes.",
                         testProxyNVM.chanmux->chan, testName, length, ret_value);
         return false;
     }
@@ -86,12 +86,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
     {
         if (out_buf[i] != in_buf[i])
         {
-            Debug_LOG_ERROR("\nChannel %d: %s: Read values corrupted!\nOn position %d written %02x, but read %02x",
+            Debug_LOG_ERROR("\nChannel %u: %s: Read values corrupted!\nOn position %d written %02x, but read %02x",
                             testProxyNVM.chanmux->chan, testName, i, out_buf[i], in_buf[i]);
             return false;
         }
     }
-    Debug_LOG_INFO("\nChannel %d: %s: Read values match the write values!",
+    Debug_LOG_INFO("\nChannel %u: %s: Read values match the write values!",
                    testProxyNVM.chanmux->chan, testName);
 
     return true;
