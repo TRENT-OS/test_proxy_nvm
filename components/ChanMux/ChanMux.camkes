@@ -11,7 +11,7 @@ component ChanMux {
     //-------------------------------------------------
     // interface to ProxyNVM_Tester2
     dataport  Buf                 proxyNVM_Tester2DataPort;
-    
+
     //-------------------------------------------------
     // MUX Uart interface
     dataport  Buf                 outputDataPort;
