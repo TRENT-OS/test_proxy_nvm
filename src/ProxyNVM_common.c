@@ -63,7 +63,7 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %u: %s: Write failed!\nTried to write %d bytes but written only %d bytes.",
+        Debug_LOG_ERROR("\nChannel %u: %s: Write failed!\nTried to write %zu bytes but written only %zu bytes.",
                         testProxyNVM.chanmux->chan, testName, length, ret_value);
         return false;
     }
@@ -77,7 +77,7 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %u: %s: Read failed!\nTried to read %d bytes but read only %d bytes.",
+        Debug_LOG_ERROR("\nChannel %u: %s: Read failed!\nTried to read %zu bytes but read only %zu bytes.",
                         testProxyNVM.chanmux->chan, testName, length, ret_value);
         return false;
     }
