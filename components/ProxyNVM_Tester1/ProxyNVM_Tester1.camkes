@@ -1,4 +1,11 @@
+/*
+ *  ProxyNVM_Tester1
+ *
+ *  Copyright (C) 2019-2020, Hensoldt Cyber GmbH
+ */
+
 import "../../interfaces/ChanMuxInf.camkes";
+
 
 component ProxyNVM_Tester1 {
     control;
