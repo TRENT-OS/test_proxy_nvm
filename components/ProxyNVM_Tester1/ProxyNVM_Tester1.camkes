@@ -10,9 +10,8 @@ import "../../interfaces/ChanMuxInf.camkes";
 component ProxyNVM_Tester1 {
     control;
 
-    dataport    Buf                 chanMuxDataPort;
-
     uses        ChanMuxInInf        ChanMuxRpc;
+    dataport    Buf                 chanMuxDataPort;
     consumes    DataAvailableEvent  ChanMuxSignal_dataAvailable;
 }
 
