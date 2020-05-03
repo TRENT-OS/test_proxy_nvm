@@ -35,18 +35,15 @@
 // CHanMux
 //-----------------------------------------------------------------------------
 
-enum
-{
-    CHANNEL_UNUSED_0,        // 0
-    CHANNEL_UNUSED_1,        // 1
-    CHANNEL_UNUSED_2,        // 2
-    CHANNEL_UNUSED_3,        // 3
-    CHANNEL_UNUSED_4,        // 4
-    CHANNEL_UNUSED_5,        // 5
-    CHANNEL_NVM_USER1_DATA,  // 6
-    CHANNEL_UNUSED_7,        // 7
-    CHANNEL_UNUSED_8,        // 8
-    CHANNEL_NVM_USER2_DATA,  // 9
+// we can't make this and enum, because CAmkES does not understand enums.
+#define CHANMUX_CHANNEL_NVM_1       6
+#define CHANMUX_CHANNEL_NVM_2       9
 
-    CHANMUX_NUM_CHANNELS,    // 10
-};
+
+//-----------------------------------------------------------------------------
+// ChanMUX clients
+//-----------------------------------------------------------------------------
+
+// we can't make this and enum, because CAmkES does not understand enums.
+#define CHANMUX_ID_TESTER_1        101
+#define CHANMUX_ID_TESTER_2        102

@@ -14,7 +14,7 @@
 *@brief Initializes the ChanMuxClient and the ProxyNVM and maps the passed channel to the defined dataport.
 */
 int
-ProxyNVMTest_init(unsigned int chan, char* proxyBuffer);
+ProxyNVMTest_init(char* proxyBuffer);
 
 /**
  *

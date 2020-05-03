@@ -1,0 +1,21 @@
+/*
+ *  ChanMUX upper interfaces
+ *
+ *  Copyright (C) 2020, Hensoldt Cyber GmbH
+ *
+ *
+ *  The file components/ChanMux/ChanMux.camkes from the generic ChanMux CAmkES
+ *  component will include this
+ *
+ */
+
+//-------------------------------------------------
+// upper interface to ProxyNVM_Tester1
+dataport  Buf                 proxyNVM_Tester1_port;
+emits     DataAvailableEvent  proxyNVM_Tester1_event_hasData;
+
+
+//-------------------------------------------------
+// upper interface to ProxyNVM_Tester2
+dataport  Buf                 proxyNVM_Tester2_port;
+emits     DataAvailableEvent  proxyNVM_Tester2_event_hasData;

@@ -11,6 +11,14 @@
 
 /* Instance variables ---------------------------------------------------------*/
 
+static const ChanMuxClientConfig_t chanMuxClientConfig = {
+    .port = CHANMUX_DATAPORT_DUPLEX_SHARED_ASSIGN(chanMux_port),
+    .wait        = chanMux_event_hasData_wait,
+    .write       = chanMux_rpc_write,
+    .read        = chanMux_rpc_read
+};
+
+
 static ProxyNVM testProxyNVM;
 static ChanMuxClient testChanMuxClient;
 
@@ -19,13 +27,11 @@ static unsigned char in_buf[MEM_SIZE] = {0};
 
 /* Public functions ----------------------------------------------------------*/
 
-int ProxyNVMTest_init(unsigned int chan, char* proxyBuffer)
+int ProxyNVMTest_init(char* proxyBuffer)
 {
 
     bool isSuccess = ChanMuxClient_ctor(&testChanMuxClient,
-                                        chan,
-                                        chanMuxDataPort,
-                                        chanMuxDataPort);
+                                        &chanMuxClientConfig);
 
     if (!isSuccess)
     {
@@ -58,13 +64,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
 
     if (ret_value == length)
     {
-        Debug_LOG_INFO("\nChannel %u: %s: Write succeded!", testProxyNVM.chanmux->chan,
-                       testName);
+        Debug_LOG_INFO("\n%s: Write succeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %u: %s: Write failed!\nTried to write %zu bytes but written only %zu bytes.",
-                        testProxyNVM.chanmux->chan, testName, length, ret_value);
+        Debug_LOG_ERROR("\n%s: Write failed!\nTried to write %zu bytes but written only %zu bytes.",
+                        testName, length, ret_value);
         return false;
     }
 
@@ -72,13 +77,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
                               (char*)in_buf, length);
     if (ret_value == length)
     {
-        Debug_LOG_INFO("\nChannel %u: %s: Read succeded!", testProxyNVM.chanmux->chan,
-                       testName);
+        Debug_LOG_INFO("\n%s: Read succeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("\nChannel %u: %s: Read failed!\nTried to read %zu bytes but read only %zu bytes.",
-                        testProxyNVM.chanmux->chan, testName, length, ret_value);
+        Debug_LOG_ERROR("\n%s: Read failed!\nTried to read %zu bytes but read only %zu bytes.",
+                        testName, length, ret_value);
         return false;
     }
 
@@ -86,13 +90,12 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
     {
         if (out_buf[i] != in_buf[i])
         {
-            Debug_LOG_ERROR("\nChannel %u: %s: Read values corrupted!\nOn position %d written %02x, but read %02x",
-                            testProxyNVM.chanmux->chan, testName, i, out_buf[i], in_buf[i]);
+            Debug_LOG_ERROR("\n%s: Read values corrupted!\nOn position %d written %02x, but read %02x",
+                            testName, i, out_buf[i], in_buf[i]);
             return false;
         }
     }
-    Debug_LOG_INFO("\nChannel %u: %s: Read values match the write values!",
-                   testProxyNVM.chanmux->chan, testName);
+    Debug_LOG_INFO("\n%s: Read values match the write values!", testName);
 
     return true;
 }

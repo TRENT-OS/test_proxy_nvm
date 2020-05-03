@@ -4,14 +4,14 @@
  *  Copyright (C) 2019-2020, Hensoldt Cyber GmbH
  */
 
-import "../../interfaces/ChanMuxInf.camkes";
+import <seos_if_chanMux.camkes>;
 
 
 component ProxyNVM_Tester2 {
     control;
 
-    uses        ChanMuxInInf        ChanMuxRpc;
-    dataport    Buf                 chanMuxDataPort;
-    consumes    DataAvailableEvent  ChanMuxSignal_dataAvailable;
+    uses        ChanMuxDriverInf    chanMux_rpc;
+    consumes    DataAvailableEvent  chanMux_event_hasData;
+    dataport    Buf                 chanMux_port;
 }
 

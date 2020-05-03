@@ -21,12 +21,12 @@ static char proxyBuffer[PAGE_SIZE];
 
 int run()
 {
-    int ret_value = ProxyNVMTest_init(CHANNEL_NVM_USER1_DATA, proxyBuffer);
+    int ret_value = ProxyNVMTest_init(proxyBuffer);
 
     if (ret_value < 0)
     {
-        Debug_LOG_ERROR("%s(): channel %u: Error initializing ProxyNVM! Errno:%d",
-                        __func__, CHANNEL_NVM_USER1_DATA, ret_value);
+        Debug_LOG_ERROR("%s(): (tester 1) Error initializing ProxyNVM! Errno:%d",
+                        __func__, ret_value);
         return -1;
     }
 
