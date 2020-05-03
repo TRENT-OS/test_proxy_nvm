@@ -25,7 +25,6 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
         system_config
         seos_core_api
         seos_libs
-        chanmux_client
         proxy_nvm
 )
 
@@ -39,7 +38,6 @@ DeclareCAmkESComponent(ProxyNVM_Tester2
         system_config
         seos_core_api
         seos_libs
-        chanmux_client
         proxy_nvm
 )
 
