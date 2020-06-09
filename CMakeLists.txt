@@ -23,8 +23,8 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
         -Wall -Werror
     LIBS
         system_config
-        seos_core_api
-        seos_libs
+        os_core_api
+        os_libs
         proxy_nvm
 )
 
@@ -36,8 +36,8 @@ DeclareCAmkESComponent(ProxyNVM_Tester2
         -Wall -Werror
     LIBS
         system_config
-        seos_core_api
-        seos_libs
+        os_core_api
+        os_libs
         proxy_nvm
 )
 
