@@ -14,19 +14,23 @@ os_use_libs(
 )
 
 
+#-------------------------------------------------------------------------------
 project(system_config C)
 add_library(${PROJECT_NAME} INTERFACE)
 target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 
 
+#-------------------------------------------------------------------------------
 project(tests_proxy_nvm C)
 
-DeclareCAmkESComponent(ProxyNVM_Tester1
+DeclareCAmkESComponent(
+    ProxyNVM_Tester1
     SOURCES
         src/ProxyNVM_Tester1.c
         src/ProxyNVM_common.c
     C_FLAGS
-        -Wall -Werror
+        -Wall
+        -Werror
     LIBS
         system_config
         os_core_api
@@ -34,12 +38,14 @@ DeclareCAmkESComponent(ProxyNVM_Tester1
         proxy_nvm
 )
 
-DeclareCAmkESComponent(ProxyNVM_Tester2
+DeclareCAmkESComponent(
+    ProxyNVM_Tester2
     SOURCES
         src/ProxyNVM_Tester2.c
         src/ProxyNVM_common.c
     C_FLAGS
-        -Wall -Werror
+        -Wall
+        -Werror
     LIBS
         system_config
         os_core_api
@@ -57,6 +63,6 @@ DeclareCAmkESComponent_ChanMux(
     system_config
 )
 
-#ROOT SERVER
+
 DeclareAndCreateCamkESSystem(main.camkes)
 GenerateSimulateScript()
