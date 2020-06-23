@@ -5,7 +5,7 @@ import "components/ProxyNVM_Tester2/ProxyNVM_Tester2.camkes";
 
 #include "system_config.h"
 
-#include "UART/uart.camkes"
+#include "UART/Uart.camkes"
 DECLARE_COMPONENT_UART(UART)
 
 #define CHANMUX_COMPONENT_NAME  ChanMux
