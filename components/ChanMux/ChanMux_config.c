@@ -36,11 +36,11 @@ resolveChannel(
 
 //------------------------------------------------------------------------------
 static uint8_t nvm_fifo[2][PAGE_SIZE];
-static ChanMux_channel_t nvm_channel[2];
+static ChanMux_Channel_t nvm_channel[2];
 
 
 //------------------------------------------------------------------------------
-static const ChanMux_channel_ctx_t channelCtx[] = {
+static const ChanMux_ChannelCtx_t channelCtx[] = {
 
     CHANMUX_CHANNEL_CTX(
         CHANMUX_CHANNEL_NVM_1,
@@ -61,7 +61,7 @@ static const ChanMux_channel_ctx_t channelCtx[] = {
 
 //------------------------------------------------------------------------------
 // this is used by the ChanMux component
-const ChanMux_config_t cfgChanMux =
+const ChanMux_Config_t cfgChanMux =
 {
     .resolveChannel = &resolveChannel,
     .numChannels    = ARRAY_SIZE(channelCtx),
