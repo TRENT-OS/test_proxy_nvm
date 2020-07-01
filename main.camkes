@@ -30,20 +30,16 @@ assembly {
         //----------------------------------------------------------------------
         // ProxyNVM_Tester1
 
-        component   ProxyNVM_Tester1   tester1;
-        connection  seL4RPCCall        tester1_chanmux     (from tester1.chanMux_rpc, to chanMux.chanMux_rpc);
-        connection  seL4SharedData     dataConnection      (from tester1.chanMux_port, to chanMux.proxyNVM_Tester1_port);
-        connection  seL4Notification   dataAvailableLan    (from chanMux.proxyNVM_Tester1_event_hasData, to tester1.chanMux_event_hasData);
-
+        component   ProxyNVM_Tester1    tester1;
+        CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester1)
+        CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester1, chan)
 
         //----------------------------------------------------------------------
         // ProxyNVM_Tester2
 
-        component   ProxyNVM_Tester2   tester2;
-        connection  seL4RPCCall        tester2_chanmux     (from tester2.chanMux_rpc, to chanMux.chanMux_rpc);
-        connection  seL4SharedData     dataConnection2     (from tester2.chanMux_port, to chanMux.proxyNVM_Tester2_port);
-        connection  seL4Notification   dataAvailableLan2   (from chanMux.proxyNVM_Tester2_event_hasData, to tester2.chanMux_event_hasData);
-
+        component   ProxyNVM_Tester2    tester2;
+        CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester2)
+        CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
     }
     configuration {
         CONFIGURE_INSTANCE_UART(
@@ -53,9 +49,8 @@ assembly {
 
         // assign endpoint badges for n:1 RPC interface of ChanMUX. The generic
         // naming scheme is <component>.<interface>_attributes = <badge ID>
-        tester1.chanMux_rpc_attributes = CHANMUX_ID_TESTER_1;
-        tester2.chanMux_rpc_attributes = CHANMUX_ID_TESTER_2;
-
+        CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester1, CHANMUX_ID_TESTER_1)
+        CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
     }
 }
 

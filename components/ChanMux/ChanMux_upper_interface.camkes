@@ -8,14 +8,12 @@
  *  component will include this
  *
  */
+#include "ChanMux/ChanMuxHelper.camkes"
 
 //-------------------------------------------------
 // upper interface to ProxyNVM_Tester1
-dataport  Buf                 proxyNVM_Tester1_port;
-emits     DataAvailableEvent  proxyNVM_Tester1_event_hasData;
-
+DECLARE_CHANMUX_CHANNEL_INTERFACE(tester1, chan)
 
 //-------------------------------------------------
 // upper interface to ProxyNVM_Tester2
-dataport  Buf                 proxyNVM_Tester2_port;
-emits     DataAvailableEvent  proxyNVM_Tester2_event_hasData;
+DECLARE_CHANMUX_CHANNEL_INTERFACE(tester2, chan)
