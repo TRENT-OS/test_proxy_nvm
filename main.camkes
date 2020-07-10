@@ -52,10 +52,7 @@ assembly {
         CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
 
         tester1.memorySizeBytes     = 36 * 1024 * 1024;
-        tester1.isWholeMemoryTested = 0;
-
         tester2.memorySizeBytes     = 128 * 1024;
-        tester2.isWholeMemoryTested = 1;
     }
 }
 

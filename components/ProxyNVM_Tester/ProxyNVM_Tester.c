@@ -38,15 +38,13 @@ int run()
         Debug_LOG_ERROR("Failed TEST SMALL SECTION!\n");
     }
 
-
     isSuccess = ProxyNVMTest_run(
-        TEST_WHOLE_MEM_ADDR,
-        // TODO Change it ones we find a faster way to write the entire memory.
-        isWholeMemoryTested ? memorySizeBytes : TEST_SMALL_SECTION_LEN,
-        "TEST WHOLE MEMORY");
+        TEST_SIZE_OUT_OF_BOUNDS_ADDR - TEST_SMALL_SECTION_ADDR,
+        TEST_SMALL_SECTION_LEN,
+        "TEST END OF MEMORY");
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST WHOLE MEMORY!\n");
+        Debug_LOG_ERROR("Failed TEST END OF MEMORY!\n");
     }
 
     isSuccess = ProxyNVMTest_run(TEST_SIZE_OUT_OF_BOUNDS_ADDR,

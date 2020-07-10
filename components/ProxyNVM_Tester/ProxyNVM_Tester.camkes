@@ -15,9 +15,5 @@ component ProxyNVM_Tester {
     DECLARE_CHANMUX_CHANNEL_CONNECTOR(chanMux, chan)
 
     attribute int memorySizeBytes;
-
-    // TODO  Workaround variable, as writing 36 MB via proxy lasts too long, so
-    //       it will be skipped for the larger NVM.
-    attribute int isWholeMemoryTested;
 }
 
