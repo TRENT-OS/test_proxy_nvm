@@ -20,25 +20,10 @@ target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
 project(tests_proxy_nvm C)
 
 DeclareCAmkESComponent(
-    ProxyNVM_Tester1
+    ProxyNVM_Tester
     SOURCES
-        src/ProxyNVM_Tester1.c
-        src/ProxyNVM_common.c
-    C_FLAGS
-        -Wall
-        -Werror
-    LIBS
-        system_config
-        os_core_api
-        os_libs
-        proxy_nvm
-)
-
-DeclareCAmkESComponent(
-    ProxyNVM_Tester2
-    SOURCES
-        src/ProxyNVM_Tester2.c
-        src/ProxyNVM_common.c
+        components/ProxyNVM_Tester/ProxyNVM_Tester.c
+        components/ProxyNVM_Tester/ProxyNVM_common.c
     C_FLAGS
         -Wall
         -Werror

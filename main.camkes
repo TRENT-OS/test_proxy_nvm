@@ -1,7 +1,6 @@
 import <std_connector.camkes>;
 
-import "components/ProxyNVM_Tester1/ProxyNVM_Tester1.camkes";
-import "components/ProxyNVM_Tester2/ProxyNVM_Tester2.camkes";
+import "components/ProxyNVM_Tester/ProxyNVM_Tester.camkes";
 
 #include "system_config.h"
 
@@ -28,16 +27,16 @@ assembly {
         DECLARE_AND_CONNECT_INSTANCE_CHANMUX_TO_UART(ChanMux, chanMux, uartDrv)
 
         //----------------------------------------------------------------------
-        // ProxyNVM_Tester1
+        // ProxyNVM_Tester
 
-        component   ProxyNVM_Tester1    tester1;
+        component   ProxyNVM_Tester    tester1;
         CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester1)
         CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester1, chan)
 
         //----------------------------------------------------------------------
-        // ProxyNVM_Tester2
+        // ProxyNVM_Tester
 
-        component   ProxyNVM_Tester2    tester2;
+        component   ProxyNVM_Tester    tester2;
         CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester2)
         CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
     }
@@ -51,6 +50,12 @@ assembly {
         // naming scheme is <component>.<interface>_attributes = <badge ID>
         CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester1, CHANMUX_ID_TESTER_1)
         CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
+
+        tester1.memorySizeBytes     = 36 * 1024 * 1024;
+        tester1.isWholeMemoryTested = 0;
+
+        tester2.memorySizeBytes     = 128 * 1024;
+        tester2.isWholeMemoryTested = 1;
     }
 }
 

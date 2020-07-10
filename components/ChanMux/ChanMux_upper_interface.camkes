@@ -11,9 +11,9 @@
 #include "ChanMux/ChanMuxHelper.camkes"
 
 //-------------------------------------------------
-// upper interface to ProxyNVM_Tester1
+// upper interface to ProxyNVM_Tester
 DECLARE_CHANMUX_CHANNEL_INTERFACE(tester1, chan)
 
 //-------------------------------------------------
-// upper interface to ProxyNVM_Tester2
+// upper interface to ProxyNVM_Tester
 DECLARE_CHANMUX_CHANNEL_INTERFACE(tester2, chan)
