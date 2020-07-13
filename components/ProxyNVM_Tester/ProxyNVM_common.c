@@ -8,14 +8,15 @@
 #include "ChanMux/ChanMuxClient.h"
 #include "camkes.h"
 
-/* Instance variables ---------------------------------------------------------*/
+static const ChanMuxClientConfig_t chanMuxClientConfig =
+{
+    .port   = CHANMUX_DATAPORT_ASSIGN(
+                chanMux_chan_portRead,
+                chanMux_chan_portWrite),
 
-static const ChanMuxClientConfig_t chanMuxClientConfig = {
-    .port = CHANMUX_DATAPORT_ASSIGN(chanMux_chan_portRead,
-                                    chanMux_chan_portWrite),
-    .wait        = chanMux_chan_EventHasData_wait,
-    .write       = chanMux_Rpc_write,
-    .read        = chanMux_Rpc_read
+    .wait   = chanMux_chan_EventHasData_wait,
+    .write  = chanMux_Rpc_write,
+    .read   = chanMux_Rpc_read
 };
 
 
@@ -40,13 +41,14 @@ static uint8_t const initData[] =
 static uint8_t writeData[TEST_DATA_SIZE] = {0};
 static uint8_t  readData[TEST_DATA_SIZE] = {0};
 
-/* Public functions ----------------------------------------------------------*/
+static bool writeTest(size_t address, const char* testName);
+static bool  readTest(size_t address, const char* testName);
 
 int ProxyNVMTest_init(char* proxyBuffer)
 {
-
-    bool isSuccess = ChanMuxClient_ctor(&testChanMuxClient,
-                                        &chanMuxClientConfig);
+    bool isSuccess = ChanMuxClient_ctor(
+                        &testChanMuxClient,
+                        &chanMuxClientConfig);
 
     if (!isSuccess)
     {
@@ -54,8 +56,11 @@ int ProxyNVMTest_init(char* proxyBuffer)
         return -1;
     }
 
-    isSuccess = ProxyNVM_ctor(&testProxyNVM, &testChanMuxClient,
-                              proxyBuffer, PAGE_SIZE);
+    isSuccess = ProxyNVM_ctor(
+                    &testProxyNVM,
+                    &testChanMuxClient,
+                    proxyBuffer,
+                    PAGE_SIZE);
 
     if (!isSuccess)
     {
@@ -63,7 +68,9 @@ int ProxyNVMTest_init(char* proxyBuffer)
         return -1;
     }
 
-    for(uint8_t* iterator = writeData;  iterator < &writeData[TEST_DATA_SIZE];)
+    for(
+        uint8_t* iterator = writeData;
+        iterator < &writeData[TEST_DATA_SIZE];)
     {
         size_t leftSpaceSize      = &writeData[TEST_DATA_SIZE] - iterator;
         size_t dataToBeCopiedSize = leftSpaceSize > sizeof(initData)
@@ -79,30 +86,65 @@ int ProxyNVMTest_init(char* proxyBuffer)
 
 bool ProxyNVMTest_run(size_t address, const char* testName)
 {
-    size_t ret_value = ProxyNVM_write(ProxyNVM_TO_NVM(&testProxyNVM),
-                                      address, (const char*)writeData, TEST_DATA_SIZE);
+    return writeTest(address, testName)
+        &&  readTest(address, testName);
+}
+
+static
+bool
+writeTest(
+    const size_t address,
+    char const * const testName)
+{
+    const size_t ret_value = ProxyNVM_write(
+                                ProxyNVM_TO_NVM(&testProxyNVM),
+                                address,
+                                (const char*)writeData,
+                                TEST_DATA_SIZE);
 
     if (ret_value == TEST_DATA_SIZE)
     {
-        Debug_LOG_INFO("%s: Write succeded!", testName);
+        Debug_LOG_INFO("%s: Write succeeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("%s: Write failed! Tried to write %zu bytes but written only %zu bytes.",
-                        testName, TEST_DATA_SIZE, ret_value);
+        Debug_LOG_ERROR(
+            "%s: Write failed! Tried to write %zu bytes but written only %zu "
+            "bytes.",
+            testName,
+            TEST_DATA_SIZE,
+            ret_value);
+
         return false;
     }
 
-    ret_value = ProxyNVM_read(ProxyNVM_TO_NVM(&testProxyNVM), address,
-                              (char*)readData, TEST_DATA_SIZE);
+    return true;
+}
+
+static
+bool
+readTest(
+    const size_t address,
+    char const * const testName)
+{
+    const size_t ret_value = ProxyNVM_read(
+                                ProxyNVM_TO_NVM(&testProxyNVM),
+                                address,
+                                (char*)readData,
+                                TEST_DATA_SIZE);
+
     if (ret_value == TEST_DATA_SIZE)
     {
-        Debug_LOG_INFO("%s: Read succeded!", testName);
+        Debug_LOG_INFO("%s: Read succeeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("%s: Read failed! Tried to read %zu bytes but read only %zu bytes.",
-                        testName, TEST_DATA_SIZE, ret_value);
+        Debug_LOG_ERROR(
+            "%s: Read failed! Tried to read %zu bytes but read only %zu bytes.",
+            testName,
+            TEST_DATA_SIZE,
+            ret_value);
+
         return false;
     }
 
@@ -110,12 +152,18 @@ bool ProxyNVMTest_run(size_t address, const char* testName)
     {
         if (writeData[i] != readData[i])
         {
-            Debug_LOG_ERROR("%s: Read values corrupted! On position %d written %02x, but read %02x",
-                            testName, i, writeData[i], readData[i]);
+            Debug_LOG_ERROR(
+                "%s: Read values corrupted! On position %d written %02x, but "
+                "read %02x",
+                testName,
+                i,
+                writeData[i],
+                readData[i]);
+
             return false;
         }
     }
-    Debug_LOG_INFO("%s: Read values match the write values!", testName);
 
+    Debug_LOG_INFO("%s: Read values match the write values!", testName);
     return true;
 }
