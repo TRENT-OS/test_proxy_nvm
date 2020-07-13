@@ -85,11 +85,30 @@ int ProxyNVMTest_init(char* proxyBuffer)
     return 0;
 }
 
-bool ProxyNVMTest_run(size_t address, const char* testName)
+void
+ProxyNVMTest_run_pos(size_t address, const char* testName)
 {
-    return writeTest(address, testName)
-        &&  readTest(address, testName)
-        && eraseTest(address, testName);
+    const bool result = (writeTest(address, testName)
+                      &&  readTest(address, testName)
+                      && eraseTest(address, testName));
+
+    Debug_LOG_ERROR(
+        "!!! %s => %s !!!",
+        testName,
+        result ? "SUCCESS" : "FAILURE");
+}
+
+void
+ProxyNVMTest_run_neg(size_t address, const char* testName)
+{
+    const bool result = (!writeTest(address, testName)
+                      && !readTest(address, testName)
+                      && !eraseTest(address, testName));
+
+    Debug_LOG_ERROR(
+        "!!! %s => %s !!!",
+        testName,
+        result ? "SUCCESS" : "FAILURE");
 }
 
 static

@@ -28,59 +28,16 @@ int run()
         return -1;
     }
 
-    bool isSuccess;
+    ProxyNVMTest_run_pos(TEST_STORAGE_START_ADDR, "TEST STORAGE START ADDRESS");
+    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR,   "TEST STORAGE MID ADDRESS");
+    ProxyNVMTest_run_pos(TEST_STORAGE_END_ADDR,   "TEST STORAGE END ADDRESS");
 
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_START_ADDR,
-                    "TEST STORAGE START ADDRESS");
+    ProxyNVMTest_run_neg(TEST_STORAGE_OVERFLOW_ADDR,  "TEST STORAGE OVERFLOW");
+    ProxyNVMTest_run_neg(TEST_STORAGE_UNDERFLOW_ADDR, "TEST STORAGE UNDERFLOW");
 
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE START ADDRESS!");
-    }
-
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_MID_ADDR,
-                    "TEST STORAGE MID ADDRESS");
-
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE MID ADDRESS!");
-    }
-
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_END_ADDR,
-                    "TEST STORAGE END ADDRESS");
-
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE END ADDRESS!");
-    }
-
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_OVERFLOW_ADDR,
-                    "TEST STORAGE OVERFLOW");
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE OVERFLOW!");
-    }
-
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_UNDERFLOW_ADDR,
-                    "TEST STORAGE UNDERFLOW");
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE UNDERFLOW!");
-    }
-
-    isSuccess = ProxyNVMTest_run(
-                    TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
-                    "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
-
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed TEST STORAGE FAR OUT OF BOUNDS ADDRESS!");
-    }
+    ProxyNVMTest_run_neg(
+        TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
+        "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
 
     return 0;
 }

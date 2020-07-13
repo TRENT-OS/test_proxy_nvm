@@ -25,8 +25,24 @@ ProxyNVMTest_init(char* proxyBuffer);
  * @retval  true  - All operations were successful.
  * @retval  false - Failure was encountered during one of the test operations.
  */
-bool
-ProxyNVMTest_run(
+void
+ProxyNVMTest_run_pos(
+    size_t address,         //!< [in] The address in the NVM memory.
+    const char* testName    //!< [in] The specific name of the test, which will
+                            //!<      be printed for debugging.
+);
+
+/**
+ * @brief   Tests negatively the ProxyNVM by writing, reading and erasing a
+ *          passed amount of data from the NVM.
+ *
+ * @note    This is a negative test, so all operation are expected to fail!
+ *
+ * @retval  true  - All operations failed.
+ * @retval  false - One of the test operations were successful.
+ */
+void
+ProxyNVMTest_run_neg(
     size_t address,         //!< [in] The address in the NVM memory.
     const char* testName    //!< [in] The specific name of the test, which will
                             //!<      be printed for debugging.
