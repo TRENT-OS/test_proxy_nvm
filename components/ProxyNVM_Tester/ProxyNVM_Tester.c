@@ -35,7 +35,7 @@ int run()
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE START ADDRESS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE START ADDRESS!");
     }
 
     isSuccess = ProxyNVMTest_run(
@@ -44,7 +44,7 @@ int run()
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE MID ADDRESS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE MID ADDRESS!");
     }
 
     isSuccess = ProxyNVMTest_run(
@@ -53,7 +53,7 @@ int run()
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE END ADDRESS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE END ADDRESS!");
     }
 
     isSuccess = ProxyNVMTest_run(
@@ -61,7 +61,7 @@ int run()
                     "TEST STORAGE OVERFLOW");
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE OVERFLOW!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE OVERFLOW!");
     }
 
     isSuccess = ProxyNVMTest_run(
@@ -69,7 +69,7 @@ int run()
                     "TEST STORAGE UNDERFLOW");
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE UNDERFLOW!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE UNDERFLOW!");
     }
 
     isSuccess = ProxyNVMTest_run(
@@ -78,7 +78,7 @@ int run()
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST STORAGE FAR OUT OF BOUNDS ADDRESS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE FAR OUT OF BOUNDS ADDRESS!");
     }
 
     return 0;

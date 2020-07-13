@@ -50,7 +50,7 @@ int ProxyNVMTest_init(char* proxyBuffer)
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed to construct testChanMuxClient!\n");
+        Debug_LOG_ERROR("Failed to construct testChanMuxClient!");
         return -1;
     }
 
@@ -59,7 +59,7 @@ int ProxyNVMTest_init(char* proxyBuffer)
 
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed to construct testProxyNVM!\n");
+        Debug_LOG_ERROR("Failed to construct testProxyNVM!");
         return -1;
     }
 
@@ -84,11 +84,11 @@ bool ProxyNVMTest_run(size_t address, const char* testName)
 
     if (ret_value == TEST_DATA_SIZE)
     {
-        Debug_LOG_INFO("\n%s: Write succeded!", testName);
+        Debug_LOG_INFO("%s: Write succeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("\n%s: Write failed!\nTried to write %zu bytes but written only %zu bytes.",
+        Debug_LOG_ERROR("%s: Write failed! Tried to write %zu bytes but written only %zu bytes.",
                         testName, TEST_DATA_SIZE, ret_value);
         return false;
     }
@@ -97,11 +97,11 @@ bool ProxyNVMTest_run(size_t address, const char* testName)
                               (char*)readData, TEST_DATA_SIZE);
     if (ret_value == TEST_DATA_SIZE)
     {
-        Debug_LOG_INFO("\n%s: Read succeded!", testName);
+        Debug_LOG_INFO("%s: Read succeded!", testName);
     }
     else
     {
-        Debug_LOG_ERROR("\n%s: Read failed!\nTried to read %zu bytes but read only %zu bytes.",
+        Debug_LOG_ERROR("%s: Read failed! Tried to read %zu bytes but read only %zu bytes.",
                         testName, TEST_DATA_SIZE, ret_value);
         return false;
     }
@@ -110,12 +110,12 @@ bool ProxyNVMTest_run(size_t address, const char* testName)
     {
         if (writeData[i] != readData[i])
         {
-            Debug_LOG_ERROR("\n%s: Read values corrupted!\nOn position %d written %02x, but read %02x",
+            Debug_LOG_ERROR("%s: Read values corrupted! On position %d written %02x, but read %02x",
                             testName, i, writeData[i], readData[i]);
             return false;
         }
     }
-    Debug_LOG_INFO("\n%s: Read values match the write values!", testName);
+    Debug_LOG_INFO("%s: Read values match the write values!", testName);
 
     return true;
 }
