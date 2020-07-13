@@ -4,14 +4,10 @@
 #include "ProxyNVM_common.h"
 #include "system_config.h"
 
-#define TEST_SMALL_SECTION_LEN          (memorySizeBytes / PAGE_SIZE) //arbitrary small chunk of data
-#define TEST_SIZE_OUT_OF_BOUNDS_LEN     PAGE_SIZE
-#define TEST_ADDR_OUT_OF_BOUNDS_LEN     PAGE_SIZE
-
-#define TEST_SMALL_SECTION_ADDR         (memorySizeBytes / PAGE_SIZE) //arbitrary memory address != 0
-#define TEST_WHOLE_MEM_ADDR             0
-#define TEST_SIZE_OUT_OF_BOUNDS_ADDR    (memorySizeBytes - 1)
-#define TEST_ADDR_OUT_OF_BOUNDS_ADDR    (memorySizeBytes * 2)
+#define TEST_STORAGE_START_ADDR             0
+#define TEST_STORAGE_END_ADDR               (memorySizeBytes - TEST_DATA_SIZE)
+#define TEST_STORAGE_OVERFLOW_ADDR          (memorySizeBytes - 1)
+#define TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR (memorySizeBytes * 2)
 
 static char proxyBuffer[PAGE_SIZE];
 
@@ -31,36 +27,39 @@ int run()
 
     bool isSuccess;
 
-    isSuccess = ProxyNVMTest_run(TEST_SMALL_SECTION_ADDR, TEST_SMALL_SECTION_LEN,
-                                 "TEST SMALL SECTION");
+    isSuccess = ProxyNVMTest_run(
+                    TEST_STORAGE_START_ADDR,
+                    "TEST STORAGE START ADDRESS");
+
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST SMALL SECTION!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE START ADDRESS!\n");
     }
 
     isSuccess = ProxyNVMTest_run(
-        TEST_SIZE_OUT_OF_BOUNDS_ADDR - TEST_SMALL_SECTION_ADDR,
-        TEST_SMALL_SECTION_LEN,
-        "TEST END OF MEMORY");
+                    TEST_STORAGE_END_ADDR,
+                    "TEST STORAGE END ADDRESS");
+
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST END OF MEMORY!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE END ADDRESS!\n");
     }
 
-    isSuccess = ProxyNVMTest_run(TEST_SIZE_OUT_OF_BOUNDS_ADDR,
-                                 TEST_SIZE_OUT_OF_BOUNDS_LEN,
-                                 "TEST SIZE OUT OF BOUNDS");
+    isSuccess = ProxyNVMTest_run(
+                    TEST_STORAGE_OVERFLOW_ADDR,
+                    "TEST STORAGE OVERFLOW");
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST SIZE OUT OF BOUNDS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE OVERFLOW!\n");
     }
 
-    isSuccess = ProxyNVMTest_run(TEST_ADDR_OUT_OF_BOUNDS_ADDR,
-                                 TEST_ADDR_OUT_OF_BOUNDS_LEN,
-                                 "TEST ADDRESS OUT OF BOUNDS");
+    isSuccess = ProxyNVMTest_run(
+                    TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
+                    "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
+
     if (!isSuccess)
     {
-        Debug_LOG_ERROR("Failed TEST ADDRESS OUT OF BOUNDS!\n");
+        Debug_LOG_ERROR("Failed TEST STORAGE FAR OUT OF BOUNDS ADDRESS!\n");
     }
 
     return 0;

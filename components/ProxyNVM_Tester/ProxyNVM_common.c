@@ -3,13 +3,10 @@
 #include <stdio.h>
 #include <stdint.h>
 
+#include "ProxyNVM_common.h"
 #include "ProxyNVM.h"
 #include "ChanMux/ChanMuxClient.h"
 #include "camkes.h"
-
-
-/* Defines -------------------------------------------------------------------*/
-#define TEST_DATA_SIZE                  (1024*128)
 
 /* Instance variables ---------------------------------------------------------*/
 
@@ -80,36 +77,36 @@ int ProxyNVMTest_init(char* proxyBuffer)
     return 0;
 }
 
-bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
+bool ProxyNVMTest_run(size_t address, const char* testName)
 {
     size_t ret_value = ProxyNVM_write(ProxyNVM_TO_NVM(&testProxyNVM),
-                                      address, (const char*)writeData, length);
+                                      address, (const char*)writeData, TEST_DATA_SIZE);
 
-    if (ret_value == length)
+    if (ret_value == TEST_DATA_SIZE)
     {
         Debug_LOG_INFO("\n%s: Write succeded!", testName);
     }
     else
     {
         Debug_LOG_ERROR("\n%s: Write failed!\nTried to write %zu bytes but written only %zu bytes.",
-                        testName, length, ret_value);
+                        testName, TEST_DATA_SIZE, ret_value);
         return false;
     }
 
     ret_value = ProxyNVM_read(ProxyNVM_TO_NVM(&testProxyNVM), address,
-                              (char*)readData, length);
-    if (ret_value == length)
+                              (char*)readData, TEST_DATA_SIZE);
+    if (ret_value == TEST_DATA_SIZE)
     {
         Debug_LOG_INFO("\n%s: Read succeded!", testName);
     }
     else
     {
         Debug_LOG_ERROR("\n%s: Read failed!\nTried to read %zu bytes but read only %zu bytes.",
-                        testName, length, ret_value);
+                        testName, TEST_DATA_SIZE, ret_value);
         return false;
     }
 
-    for (int i = 0; i < length; i++)
+    for (int i = 0; i < TEST_DATA_SIZE; i++)
     {
         if (writeData[i] != readData[i])
         {

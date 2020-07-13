@@ -7,6 +7,9 @@
 #pragma once
 
 #include <stddef.h>
+#include <stdbool.h>
+
+#define TEST_DATA_SIZE                  (2 * PAGE_SIZE)
 
 /* Exported functions ------------------------------------------------------- */
 
@@ -25,5 +28,5 @@ ProxyNVMTest_init(char* proxyBuffer);
  * @param testName the specific name of the test, which will be printed for debugging
  */
 bool
-ProxyNVMTest_run(size_t address, size_t length, const char* testName);
+ProxyNVMTest_run(size_t address, const char* testName);
 
