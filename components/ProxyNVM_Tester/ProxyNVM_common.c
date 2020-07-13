@@ -43,6 +43,7 @@ static uint8_t  readData[TEST_DATA_SIZE] = {0};
 
 static bool writeTest(size_t address, const char* testName);
 static bool  readTest(size_t address, const char* testName);
+static bool eraseTest(size_t address, const char* testName);
 
 int ProxyNVMTest_init(char* proxyBuffer)
 {
@@ -87,7 +88,8 @@ int ProxyNVMTest_init(char* proxyBuffer)
 bool ProxyNVMTest_run(size_t address, const char* testName)
 {
     return writeTest(address, testName)
-        &&  readTest(address, testName);
+        &&  readTest(address, testName)
+        && eraseTest(address, testName);
 }
 
 static
@@ -165,5 +167,73 @@ readTest(
     }
 
     Debug_LOG_INFO("%s: Read values match the write values!", testName);
+    return true;
+}
+
+static
+bool
+eraseTest(
+    const size_t address,
+    char const * const testName)
+{
+    size_t ret_value = ProxyNVM_erase(
+                            ProxyNVM_TO_NVM(&testProxyNVM),
+                            address,
+                            TEST_DATA_SIZE);
+
+    if (ret_value == TEST_DATA_SIZE)
+    {
+        Debug_LOG_INFO("%s: Erase succeeded!", testName);
+    }
+    else
+    {
+        Debug_LOG_ERROR(
+            "%s: Erase failed! Tried to erase %zu bytes but erased only %zu "
+            "bytes.",
+            testName,
+            TEST_DATA_SIZE,
+            ret_value);
+
+        return false;
+    }
+
+    ret_value = ProxyNVM_read(
+                    ProxyNVM_TO_NVM(&testProxyNVM),
+                    address,
+                    (char*)readData,
+                    TEST_DATA_SIZE);
+
+    if (ret_value == TEST_DATA_SIZE)
+    {
+        Debug_LOG_INFO("%s: Read after the erase succeeded!", testName);
+    }
+    else
+    {
+        Debug_LOG_ERROR(
+            "%s: Read after the erase failed! Tried to read %zu bytes but read "
+            "only %zu bytes.",
+            testName,
+            TEST_DATA_SIZE,
+            ret_value);
+
+        return false;
+    }
+
+    for (size_t i = 0; i < TEST_DATA_SIZE; i++)
+    {
+        if (0xFF != readData[i])
+        {
+            Debug_LOG_ERROR(
+                "%s: Read values corrupted! On position %u expected 0xFF, but "
+                "read %02x",
+                testName,
+                i,
+                readData[i]);
+
+            return false;
+        }
+    }
+    Debug_LOG_INFO("%s: Memory was erased successfully!", testName);
+
     return true;
 }

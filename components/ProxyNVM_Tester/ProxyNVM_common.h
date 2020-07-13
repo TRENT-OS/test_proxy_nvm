@@ -19,8 +19,8 @@ int
 ProxyNVMTest_init(char* proxyBuffer);
 
 /**
- * @brief   Tests the ProxyNVM by writing and then reading a passed amount of
- *          data from the NVM.
+ * @brief   Tests the ProxyNVM by writing, reading and erasing a passed amount
+ *          of data from the NVM.
  *
  * @retval  true  - All operations were successful.
  * @retval  false - Failure was encountered during one of the test operations.
