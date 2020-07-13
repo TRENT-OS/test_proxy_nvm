@@ -8,6 +8,7 @@
 #define TEST_STORAGE_MID_ADDR               (memorySizeBytes / 2)
 #define TEST_STORAGE_END_ADDR               (memorySizeBytes - TEST_DATA_SIZE)
 #define TEST_STORAGE_OVERFLOW_ADDR          (memorySizeBytes - 1)
+#define TEST_STORAGE_UNDERFLOW_ADDR         ((size_t)-1)
 #define TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR (memorySizeBytes * 2)
 
 static char proxyBuffer[PAGE_SIZE];
@@ -61,6 +62,14 @@ int run()
     if (!isSuccess)
     {
         Debug_LOG_ERROR("Failed TEST STORAGE OVERFLOW!\n");
+    }
+
+    isSuccess = ProxyNVMTest_run(
+                    TEST_STORAGE_UNDERFLOW_ADDR,
+                    "TEST STORAGE UNDERFLOW");
+    if (!isSuccess)
+    {
+        Debug_LOG_ERROR("Failed TEST STORAGE UNDERFLOW!\n");
     }
 
     isSuccess = ProxyNVMTest_run(
