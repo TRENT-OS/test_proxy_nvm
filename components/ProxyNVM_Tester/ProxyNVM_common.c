@@ -1,13 +1,15 @@
 /* Includes ------------------------------------------------------------------*/
 #include <string.h>
 #include <stdio.h>
+#include <stdint.h>
+
 #include "ProxyNVM.h"
 #include "ChanMux/ChanMuxClient.h"
 #include "camkes.h"
 
 
 /* Defines -------------------------------------------------------------------*/
-#define MEM_SIZE                        (1024*128)
+#define TEST_DATA_SIZE                  (1024*128)
 
 /* Instance variables ---------------------------------------------------------*/
 
@@ -23,8 +25,23 @@ static const ChanMuxClientConfig_t chanMuxClientConfig = {
 static ProxyNVM testProxyNVM;
 static ChanMuxClient testChanMuxClient;
 
-static unsigned char out_buf[MEM_SIZE] = {0};
-static unsigned char in_buf[MEM_SIZE] = {0};
+static uint8_t const initData[] =
+"KXyLGoRV1jnSKZ22e1EV16vX7XiyqLTf2LhpyMf3MxSKz3ZbOCzJTQ5bV0XRMeH9O03k5p8X6Rlrf6"
+"5bIPj1RUsFTGbURwSDyfvE9uDc2Yu86vBILHZYNHgQ2g1lGClmmZNNnvdJPFBTKRK4pNAIfS366vP1"
+"DaPs97VEAkEW3PfmXFtf7ERRMgH1Bvudeuttk1QGe7DnVcJndyxzRSwfDNZmsPlhKYSrEjtde7zuLO"
+"peWUXp98yZmVG0ewVaEqGzqhWk0ib4IHsYMOfGSWbZr5amqaSrcFPIyx0oRyBEVZJclCphd43poUIU"
+"cDQkQXEYyvf7Nk1yDvHCOWPhnd9nghZZlZPKj6p3lpKASC1TcnxPMmaI3ZUTJSeVNiBUAEEM4P8fIJ"
+"eNzUSpMK3qsc5xxikzncG8RD3mJImKN6SbnqlgHTJovqsoQkvYdbOsUR4Qwg1hsstuO4ZZo2uKA1my"
+"VBk65dhu6rwtuTKmMkY8bphZnP4s5BQiPSgXWh3g9izuGnw95RqTwfObvQKqNgW9TJxM3nGGKhHAxC"
+"pM7KS5TqT3hGvDluxC4G2zc9EdhhMUrqX4GhsqMcnoOf44UskFjnx7TJ62fws8pUuwndzqd99yzGuC"
+"NUvBjXWjYqul8nmCQUJv3YYHryUdxsHvTiCN9zAoYXy2BkQ2DCLelZTueAR6kF7151cAcW85Yj6ZFD"
+"ndznRWItKxd2vIyOSsmaMG8IBZlbvu0QGkuuFx2beYtV9MhzV6moFKyzauHVlL06wOvFFasSncoxE4"
+"MGEAdM9MNPIaY2oiyAEDammlcqwBad0ZC0HAdgkarfW4dyBaYwCQoq4vnR5kGD2zZv85u2pD6W234A"
+"d4sXj4j1SdtvCoFcPPOkH1ytmUwcqw2bPqc6D87PMkwb313gXvHCblk24B295yoZheSXefflwtdo3P"
+"a3EJhkfQr9xoesMiNTal7FDtqTuXILPoJnmxPQfJnJ2QcI0cEldq5KZLyufP20U2cI0cEldq5KZLy";
+
+static uint8_t writeData[TEST_DATA_SIZE] = {0};
+static uint8_t  readData[TEST_DATA_SIZE] = {0};
 
 /* Public functions ----------------------------------------------------------*/
 
@@ -49,19 +66,24 @@ int ProxyNVMTest_init(char* proxyBuffer)
         return -1;
     }
 
+    for(uint8_t* iterator = writeData;  iterator < &writeData[TEST_DATA_SIZE];)
+    {
+        size_t leftSpaceSize      = &writeData[TEST_DATA_SIZE] - iterator;
+        size_t dataToBeCopiedSize = leftSpaceSize > sizeof(initData)
+                                        ? sizeof(initData)
+                                        : leftSpaceSize;
+
+        memcpy(iterator, initData, dataToBeCopiedSize);
+        iterator += dataToBeCopiedSize;
+    }
+
     return 0;
 }
 
 bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
 {
-
-    for (u_int i = 0; i < length; i++)
-    {
-        out_buf[i] = (char)i;
-    }
-
     size_t ret_value = ProxyNVM_write(ProxyNVM_TO_NVM(&testProxyNVM),
-                                      address, (const char*)out_buf, length);
+                                      address, (const char*)writeData, length);
 
     if (ret_value == length)
     {
@@ -75,7 +97,7 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
     }
 
     ret_value = ProxyNVM_read(ProxyNVM_TO_NVM(&testProxyNVM), address,
-                              (char*)in_buf, length);
+                              (char*)readData, length);
     if (ret_value == length)
     {
         Debug_LOG_INFO("\n%s: Read succeded!", testName);
@@ -89,10 +111,10 @@ bool ProxyNVMTest_run(size_t address, size_t length, const char* testName)
 
     for (int i = 0; i < length; i++)
     {
-        if (out_buf[i] != in_buf[i])
+        if (writeData[i] != readData[i])
         {
             Debug_LOG_ERROR("\n%s: Read values corrupted!\nOn position %d written %02x, but read %02x",
-                            testName, i, out_buf[i], in_buf[i]);
+                            testName, i, writeData[i], readData[i]);
             return false;
         }
     }
