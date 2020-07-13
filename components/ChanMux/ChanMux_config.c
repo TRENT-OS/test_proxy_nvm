@@ -1,9 +1,9 @@
-/*
- *  Channel MUX
- *
- *  Copyright (C) 2019, Hensoldt Cyber GmbH
- */
+/*  Copyright (C) 2020, Hensoldt Cyber GmbH */
 
+/**
+ * @brief   Channel MUX
+ * @file
+ */
 #include "system_config.h"
 #include "ChanMux/ChanMux.h"
 #include <camkes.h>

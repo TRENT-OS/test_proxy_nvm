@@ -1,4 +1,4 @@
-/* Includes ------------------------------------------------------------------*/
+/* Copyright (C) 2020, Hensoldt Cyber GmbH */
 #include <string.h>
 #include <stdio.h>
 #include <stdint.h>

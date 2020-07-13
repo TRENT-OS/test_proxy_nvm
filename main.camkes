@@ -1,6 +1,10 @@
+/* Copyright (C) 2020, Hensoldt Cyber GmbH */
+
+/** @cond SKIP_IMPORTS */
 import <std_connector.camkes>;
 
 import "components/ProxyNVM_Tester/ProxyNVM_Tester.camkes";
+/** @endcond */
 
 #include "system_config.h"
 
@@ -11,7 +15,7 @@ DECLARE_COMPONENT_UART(UART)
 #define CHANMUX_UPPER_INTERFACES "components/ChanMux/ChanMux_upper_interface.camkes"
 #include "ChanMux/ChanMux.camkes"
 
-
+/** @hideinitializer */
 assembly {
     composition {
 
