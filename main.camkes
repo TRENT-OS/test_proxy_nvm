@@ -11,9 +11,10 @@ import "components/ProxyNVM_Tester/ProxyNVM_Tester.camkes";
 #include "UART/Uart.camkes"
 DECLARE_COMPONENT_UART(UART)
 
-#define CHANMUX_COMPONENT_NAME  ChanMux
-#define CHANMUX_UPPER_INTERFACES "components/ChanMux/ChanMux_upper_interface.camkes"
 #include "ChanMux/ChanMux.camkes"
+ChanMux_DEFINE_COMPONENT(ChanMux,
+        tester1, chan,
+        tester2, chan)
 
 /** @hideinitializer */
 assembly {
@@ -28,21 +29,21 @@ assembly {
         //----------------------------------------------------------------------
         // ChanMux
 
-        DECLARE_AND_CONNECT_INSTANCE_CHANMUX_TO_UART(ChanMux, chanMux, uartDrv)
+        ChanMux_DECLARE_AND_CONNECT_INSTANCE_TO_UART(ChanMux, chanMux, uartDrv)
 
         //----------------------------------------------------------------------
         // ProxyNVM_Tester
 
         component   ProxyNVM_Tester    tester1;
-        CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester1)
-        CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester1, chan)
+        ChanMux_INSTANCE_CONNECT_INTERFACE(chanMux, tester1)
+        ChanMux_INSTANCE_CONNECT_CHANNEL(chanMux, tester1, chan)
 
         //----------------------------------------------------------------------
         // ProxyNVM_Tester
 
         component   ProxyNVM_Tester    tester2;
-        CHANMUX_INSTANCE_CONNECT_INTERFACE(chanMux, tester2)
-        CHANMUX_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
+        ChanMux_INSTANCE_CONNECT_INTERFACE(chanMux, tester2)
+        ChanMux_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
     }
     configuration {
         CONFIGURE_INSTANCE_UART(
@@ -52,8 +53,8 @@ assembly {
 
         // assign endpoint badges for n:1 RPC interface of ChanMUX. The generic
         // naming scheme is <component>.<interface>_attributes = <badge ID>
-        CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester1, CHANMUX_ID_TESTER_1)
-        CHANMUX_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
+        ChanMux_ASSIGN_CLIENT_BADGE(chanMux, tester1, CHANMUX_ID_TESTER_1)
+        ChanMux_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
 
         tester1.memorySizeBytes     = 36 * 1024 * 1024;
         tester2.memorySizeBytes     = 128 * 1024;
