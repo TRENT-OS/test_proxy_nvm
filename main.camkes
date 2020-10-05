@@ -8,9 +8,6 @@ import "components/ProxyNVM_Tester/ProxyNVM_Tester.camkes";
 
 #include "system_config.h"
 
-#include "UART/Uart.camkes"
-DECLARE_COMPONENT_UART(UART)
-
 #include "ChanMux/ChanMux.camkes"
 ChanMux_DEFINE_COMPONENT(ChanMux,
         tester1, chan,
@@ -21,15 +18,9 @@ assembly {
     composition {
 
         //----------------------------------------------------------------------
-        // UART
+        // ChanMux + UART
 
-        DECLARE_AND_CONNECT_INSTANCE_UART(
-            UART, uartDrv)
-
-        //----------------------------------------------------------------------
-        // ChanMux
-
-        ChanMux_DECLARE_AND_CONNECT_INSTANCE_TO_UART(ChanMux, chanMux, uartDrv)
+        ChanMux_DECLARE_AND_CONNECT_INSTANCE_TO_UART(ChanMux, chanMux)
 
         //----------------------------------------------------------------------
         // ProxyNVM_Tester
@@ -46,10 +37,6 @@ assembly {
         ChanMux_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
     }
     configuration {
-        CONFIGURE_INSTANCE_UART(
-            uartDrv,
-            CFG_CHANMUX_DEFAULT_UART_PHYS_ADDR,
-            CFG_CHANMUX_DEFAULT_UART_INTR)
 
         // assign endpoint badges for n:1 RPC interface of ChanMUX. The generic
         // naming scheme is <component>.<interface>_attributes = <badge ID>
