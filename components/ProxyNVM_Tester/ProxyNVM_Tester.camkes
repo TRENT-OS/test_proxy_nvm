@@ -9,7 +9,7 @@
 import <if_ChanMux.camkes>;
 /** @endcond */
 
-#include "ChanMux/ChanMuxHelper.camkes"
+#include "ChanMux/ChanMux.camkes"
 
 /** @hideinitializer */
 component ProxyNVM_Tester {

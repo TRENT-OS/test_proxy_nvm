@@ -8,10 +8,12 @@ import "components/ProxyNVM_Tester/ProxyNVM_Tester.camkes";
 
 #include "system_config.h"
 
-#include "ChanMux/ChanMux.camkes"
-ChanMux_DEFINE_COMPONENT(ChanMux,
-        tester1, chan,
-        tester2, chan)
+#include "ChanMux/ChanMux_UART.camkes"
+ChanMux_UART_COMPONENT_DEFINE(
+    ChanMux_UART,
+    tester1, chan,
+    tester2, chan
+)
 
 /** @hideinitializer */
 assembly {
@@ -19,29 +21,33 @@ assembly {
 
         //----------------------------------------------------------------------
         // ChanMux + UART
+        component ChanMux_UART chanMux_UART;
+        component UART_CHANMUX uart;
 
-        ChanMux_DECLARE_AND_CONNECT_INSTANCE_TO_UART(ChanMux, chanMux)
+        ChanMux_UART_INSTANCE_CONNECT(
+            chanMux_UART,
+            uart
+        )
 
         //----------------------------------------------------------------------
         // ProxyNVM_Tester
-
         component   ProxyNVM_Tester    tester1;
-        ChanMux_INSTANCE_CONNECT_INTERFACE(chanMux, tester1)
-        ChanMux_INSTANCE_CONNECT_CHANNEL(chanMux, tester1, chan)
-
-        //----------------------------------------------------------------------
-        // ProxyNVM_Tester
-
         component   ProxyNVM_Tester    tester2;
-        ChanMux_INSTANCE_CONNECT_INTERFACE(chanMux, tester2)
-        ChanMux_INSTANCE_CONNECT_CHANNEL(chanMux, tester2, chan)
+
+        ChanMux_UART_INSTANCE_CONNECT_CLIENT(
+            chanMux_UART,
+            tester1, chan
+        )
+        ChanMux_UART_INSTANCE_CONNECT_CLIENT(
+            chanMux_UART,
+            tester2, chan
+        )
     }
     configuration {
-
-        // assign endpoint badges for n:1 RPC interface of ChanMUX. The generic
-        // naming scheme is <component>.<interface>_attributes = <badge ID>
-        ChanMux_ASSIGN_CLIENT_BADGE(chanMux, tester1, CHANMUX_ID_TESTER_1)
-        ChanMux_ASSIGN_CLIENT_BADGE(chanMux, tester2, CHANMUX_ID_TESTER_2)
+        ChanMux_UART_CLIENT_ASSIGN_BADGES(
+            tester1.chanMux_Rpc,
+            tester2.chanMux_Rpc
+        )
 
         tester1.memorySizeBytes     = 36 * 1024 * 1024;
         tester2.memorySizeBytes     = 128 * 1024;
