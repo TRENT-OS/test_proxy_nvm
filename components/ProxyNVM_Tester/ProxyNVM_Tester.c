@@ -1,6 +1,6 @@
 /* Copyright (C) 2020, Hensoldt Cyber GmbH */
 #include <stdio.h>
-#include "LibDebug/Debug.h"
+#include "lib_debug/Debug.h"
 #include "camkes.h"
 #include "ProxyNVM_common.h"
 #include "system_config.h"

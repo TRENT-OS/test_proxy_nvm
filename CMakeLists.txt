@@ -30,7 +30,8 @@ DeclareCAmkESComponent(
     LIBS
         system_config
         os_core_api
-        os_libs
+        lib_debug
+        lib_macros
         proxy_nvm
 )
 

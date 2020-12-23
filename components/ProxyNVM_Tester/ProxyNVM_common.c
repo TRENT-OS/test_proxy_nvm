@@ -7,7 +7,7 @@
 #include "ProxyNVM.h"
 #include "ChanMux/ChanMuxClient.h"
 #include "camkes.h"
-#include "LibMacros/Test.h"
+#include "lib_macros/Test.h"
 
 #define TEST_STORAGE_START_ADDR             0
 #define TEST_STORAGE_MID_ADDR               (memorySizeBytes / 2)
