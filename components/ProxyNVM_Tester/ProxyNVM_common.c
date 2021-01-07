@@ -203,7 +203,7 @@ eraseTest(
  * @retval  false - Failure was encountered during one of the test operations.
  */
 void
-ProxyNVMTest_run_pos(
+run_pos(
     size_t address,         //!< [in] The address in the NVM memory.
     const char* testName    //!< [in] The specific name of the test, which will
                             //!<      be printed for debugging.
@@ -225,7 +225,7 @@ ProxyNVMTest_run_pos(
  * @retval  false - One of the test operations were successful.
  */
 void
-ProxyNVMTest_run_neg(
+run_neg(
     size_t address,         //!< [in] The address in the NVM memory.
     const char* testName    //!< [in] The specific name of the test, which will
                             //!<      be printed for debugging.
@@ -240,7 +240,7 @@ ProxyNVMTest_run_neg(
 
 // Public functions ------------------------------------------------------------
 
-int ProxyNVMTest_init(char* proxyBuffer)
+int init(char* proxyBuffer)
 {
     bool isSuccess = ChanMuxClient_ctor(
                         &testChanMuxClient,
@@ -281,50 +281,50 @@ int ProxyNVMTest_init(char* proxyBuffer)
 }
 
 void
-ProxyNVMTest_testStorageStartAddr(void)
+testStorageStartAddr(void)
 {
     TEST_START();
-    ProxyNVMTest_run_pos(TEST_STORAGE_START_ADDR, "TEST STORAGE START ADDRESS");
+    run_pos(TEST_STORAGE_START_ADDR, "TEST STORAGE START ADDRESS");
     TEST_FINISH();
 }
 
 void
-ProxyNVMTest_testStorageMidAddr(void)
+testStorageMidAddr(void)
 {
     TEST_START();
-    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE MID ADDRESS");
+    run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE MID ADDRESS");
     TEST_FINISH();
 }
 
 void
-ProxyNVMTest_testStorageEndAddr(void)
+testStorageEndAddr(void)
 {
     TEST_START();
-    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE END ADDRESS");
+    run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE END ADDRESS");
     TEST_FINISH();
 }
 
 void
-ProxyNVMTest_testStorageOverflow(void)
+testStorageOverflow(void)
 {
     TEST_START();
-    ProxyNVMTest_run_neg(TEST_STORAGE_OVERFLOW_ADDR,  "TEST STORAGE OVERFLOW");
+    run_neg(TEST_STORAGE_OVERFLOW_ADDR,  "TEST STORAGE OVERFLOW");
     TEST_FINISH();
 }
 
 void
-ProxyNVMTest_testStorageUnderflow(void)
+testStorageUnderflow(void)
 {
     TEST_START();
-    ProxyNVMTest_run_neg(TEST_STORAGE_UNDERFLOW_ADDR, "TEST STORAGE UNDERFLOW");
+    run_neg(TEST_STORAGE_UNDERFLOW_ADDR, "TEST STORAGE UNDERFLOW");
     TEST_FINISH();
 }
 
 void
-ProxyNVMTest_testStorageFarOutOfBoundAddr(void)
+testStorageFarOutOfBoundAddr(void)
 {
     TEST_START();
-    ProxyNVMTest_run_neg(
+    run_neg(
         TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
         "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
     TEST_FINISH();

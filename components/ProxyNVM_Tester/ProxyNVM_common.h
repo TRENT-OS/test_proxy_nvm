@@ -16,22 +16,22 @@
  *          channel to the defined dataport.
  */
 int
-ProxyNVMTest_init(char* proxyBuffer);
+init(char* proxyBuffer);
 
 void
-ProxyNVMTest_testStorageStartAddr(void);
+testStorageStartAddr(void);
 
 void
-ProxyNVMTest_testStorageMidAddr(void);
+testStorageMidAddr(void);
 
 void
-ProxyNVMTest_testStorageEndAddr(void);
+testStorageEndAddr(void);
 
 void
-ProxyNVMTest_testStorageOverflow(void);
+testStorageOverflow(void);
 
 void
-ProxyNVMTest_testStorageUnderflow(void);
+testStorageUnderflow(void);
 
 void
-ProxyNVMTest_testStorageFarOutOfBoundAddr(void);
+testStorageFarOutOfBoundAddr(void);

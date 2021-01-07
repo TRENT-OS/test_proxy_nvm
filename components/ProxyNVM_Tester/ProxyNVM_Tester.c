@@ -9,7 +9,7 @@ static char proxyBuffer[PAGE_SIZE];
 
 int run()
 {
-    int ret_value = ProxyNVMTest_init(proxyBuffer);
+    int ret_value = init(proxyBuffer);
 
     if (ret_value < 0)
     {
@@ -21,12 +21,12 @@ int run()
         return -1;
     }
 
-    ProxyNVMTest_testStorageStartAddr();
-    ProxyNVMTest_testStorageMidAddr();
-    ProxyNVMTest_testStorageEndAddr();
-    ProxyNVMTest_testStorageOverflow();
-    ProxyNVMTest_testStorageUnderflow();
-    ProxyNVMTest_testStorageFarOutOfBoundAddr();
+    testStorageStartAddr();
+    testStorageMidAddr();
+    testStorageEndAddr();
+    testStorageOverflow();
+    testStorageUnderflow();
+    testStorageFarOutOfBoundAddr();
 
     return 0;
 }
