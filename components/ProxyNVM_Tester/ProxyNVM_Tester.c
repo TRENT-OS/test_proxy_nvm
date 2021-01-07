@@ -5,13 +5,6 @@
 #include "ProxyNVM_common.h"
 #include "system_config.h"
 
-#define TEST_STORAGE_START_ADDR             0
-#define TEST_STORAGE_MID_ADDR               (memorySizeBytes / 2)
-#define TEST_STORAGE_END_ADDR               (memorySizeBytes - TEST_DATA_SIZE)
-#define TEST_STORAGE_OVERFLOW_ADDR          (memorySizeBytes - 1)
-#define TEST_STORAGE_UNDERFLOW_ADDR         ((size_t)-1)
-#define TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR (memorySizeBytes * 2)
-
 static char proxyBuffer[PAGE_SIZE];
 
 int run()
@@ -28,16 +21,12 @@ int run()
         return -1;
     }
 
-    ProxyNVMTest_run_pos(TEST_STORAGE_START_ADDR, "TEST STORAGE START ADDRESS");
-    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR,   "TEST STORAGE MID ADDRESS");
-    ProxyNVMTest_run_pos(TEST_STORAGE_END_ADDR,   "TEST STORAGE END ADDRESS");
-
-    ProxyNVMTest_run_neg(TEST_STORAGE_OVERFLOW_ADDR,  "TEST STORAGE OVERFLOW");
-    ProxyNVMTest_run_neg(TEST_STORAGE_UNDERFLOW_ADDR, "TEST STORAGE UNDERFLOW");
-
-    ProxyNVMTest_run_neg(
-        TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
-        "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
+    ProxyNVMTest_testStorageStartAddr();
+    ProxyNVMTest_testStorageMidAddr();
+    ProxyNVMTest_testStorageEndAddr();
+    ProxyNVMTest_testStorageOverflow();
+    ProxyNVMTest_testStorageUnderflow();
+    ProxyNVMTest_testStorageFarOutOfBoundAddr();
 
     return 0;
 }

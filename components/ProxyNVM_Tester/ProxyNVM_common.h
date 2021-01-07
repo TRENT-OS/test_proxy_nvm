@@ -18,33 +18,20 @@
 int
 ProxyNVMTest_init(char* proxyBuffer);
 
-/**
- * @brief   Tests the ProxyNVM by writing, reading and erasing a passed amount
- *          of data from the NVM.
- *
- * @retval  true  - All operations were successful.
- * @retval  false - Failure was encountered during one of the test operations.
- */
 void
-ProxyNVMTest_run_pos(
-    size_t address,         //!< [in] The address in the NVM memory.
-    const char* testName    //!< [in] The specific name of the test, which will
-                            //!<      be printed for debugging.
-);
+ProxyNVMTest_testStorageStartAddr(void);
 
-/**
- * @brief   Tests negatively the ProxyNVM by writing, reading and erasing a
- *          passed amount of data from the NVM.
- *
- * @note    This is a negative test, so all operation are expected to fail!
- *
- * @retval  true  - All operations failed.
- * @retval  false - One of the test operations were successful.
- */
 void
-ProxyNVMTest_run_neg(
-    size_t address,         //!< [in] The address in the NVM memory.
-    const char* testName    //!< [in] The specific name of the test, which will
-                            //!<      be printed for debugging.
-);
+ProxyNVMTest_testStorageMidAddr(void);
 
+void
+ProxyNVMTest_testStorageEndAddr(void);
+
+void
+ProxyNVMTest_testStorageOverflow(void);
+
+void
+ProxyNVMTest_testStorageUnderflow(void);
+
+void
+ProxyNVMTest_testStorageFarOutOfBoundAddr(void);

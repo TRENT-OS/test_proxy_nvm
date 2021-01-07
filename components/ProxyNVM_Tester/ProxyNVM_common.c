@@ -7,6 +7,14 @@
 #include "ProxyNVM.h"
 #include "ChanMux/ChanMuxClient.h"
 #include "camkes.h"
+#include "LibMacros/Test.h"
+
+#define TEST_STORAGE_START_ADDR             0
+#define TEST_STORAGE_MID_ADDR               (memorySizeBytes / 2)
+#define TEST_STORAGE_END_ADDR               (memorySizeBytes - TEST_DATA_SIZE)
+#define TEST_STORAGE_OVERFLOW_ADDR          (memorySizeBytes - 1)
+#define TEST_STORAGE_UNDERFLOW_ADDR         ((size_t)-1)
+#define TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR (memorySizeBytes * 2)
 
 static const ChanMuxClientConfig_t chanMuxClientConfig =
 {
@@ -187,6 +195,48 @@ eraseTest(
     return true;
 }
 
+/**
+ * @brief   Tests the ProxyNVM by writing, reading and erasing a passed amount
+ *          of data from the NVM.
+ *
+ * @retval  true  - All operations were successful.
+ * @retval  false - Failure was encountered during one of the test operations.
+ */
+void
+ProxyNVMTest_run_pos(
+    size_t address,         //!< [in] The address in the NVM memory.
+    const char* testName    //!< [in] The specific name of the test, which will
+                            //!<      be printed for debugging.
+)
+{
+    const bool result = (writeTest(address, testName)
+                      &&  readTest(address, testName)
+                      && eraseTest(address, testName));
+    ASSERT_TRUE(result);
+}
+
+/**
+ * @brief   Tests negatively the ProxyNVM by writing, reading and erasing a
+ *          passed amount of data from the NVM.
+ *
+ * @note    This is a negative test, so all operation are expected to fail!
+ *
+ * @retval  true  - All operations failed.
+ * @retval  false - One of the test operations were successful.
+ */
+void
+ProxyNVMTest_run_neg(
+    size_t address,         //!< [in] The address in the NVM memory.
+    const char* testName    //!< [in] The specific name of the test, which will
+                            //!<      be printed for debugging.
+)
+{
+    const bool result = (!writeTest(address, testName)
+                      && !readTest(address, testName)
+                      && !eraseTest(address, testName));
+    ASSERT_TRUE(result);
+}
+
 
 // Public functions ------------------------------------------------------------
 
@@ -231,27 +281,51 @@ int ProxyNVMTest_init(char* proxyBuffer)
 }
 
 void
-ProxyNVMTest_run_pos(size_t address, const char* testName)
+ProxyNVMTest_testStorageStartAddr(void)
 {
-    const bool result = (writeTest(address, testName)
-                      &&  readTest(address, testName)
-                      && eraseTest(address, testName));
-
-    Debug_LOG_ERROR(
-        "!!! %s => %s !!!",
-        testName,
-        result ? "SUCCESS" : "FAILURE");
+    TEST_START();
+    ProxyNVMTest_run_pos(TEST_STORAGE_START_ADDR, "TEST STORAGE START ADDRESS");
+    TEST_FINISH();
 }
 
 void
-ProxyNVMTest_run_neg(size_t address, const char* testName)
+ProxyNVMTest_testStorageMidAddr(void)
 {
-    const bool result = (!writeTest(address, testName)
-                      && !readTest(address, testName)
-                      && !eraseTest(address, testName));
+    TEST_START();
+    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE MID ADDRESS");
+    TEST_FINISH();
+}
 
-    Debug_LOG_ERROR(
-        "!!! %s => %s !!!",
-        testName,
-        result ? "SUCCESS" : "FAILURE");
+void
+ProxyNVMTest_testStorageEndAddr(void)
+{
+    TEST_START();
+    ProxyNVMTest_run_pos(TEST_STORAGE_MID_ADDR, "TEST STORAGE END ADDRESS");
+    TEST_FINISH();
+}
+
+void
+ProxyNVMTest_testStorageOverflow(void)
+{
+    TEST_START();
+    ProxyNVMTest_run_neg(TEST_STORAGE_OVERFLOW_ADDR,  "TEST STORAGE OVERFLOW");
+    TEST_FINISH();
+}
+
+void
+ProxyNVMTest_testStorageUnderflow(void)
+{
+    TEST_START();
+    ProxyNVMTest_run_neg(TEST_STORAGE_UNDERFLOW_ADDR, "TEST STORAGE UNDERFLOW");
+    TEST_FINISH();
+}
+
+void
+ProxyNVMTest_testStorageFarOutOfBoundAddr(void)
+{
+    TEST_START();
+    ProxyNVMTest_run_neg(
+        TEST_STORAGE_FAR_OUT_OF_BOUNDS_ADDR,
+        "TEST STORAGE FAR OUT OF BOUNDS ADDRESS");
+    TEST_FINISH();
 }
