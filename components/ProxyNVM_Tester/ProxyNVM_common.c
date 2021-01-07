@@ -41,76 +41,6 @@ static uint8_t const initData[] =
 static uint8_t writeData[TEST_DATA_SIZE] = {0};
 static uint8_t  readData[TEST_DATA_SIZE] = {0};
 
-static bool writeTest(size_t address, const char* testName);
-static bool  readTest(size_t address, const char* testName);
-static bool eraseTest(size_t address, const char* testName);
-
-int ProxyNVMTest_init(char* proxyBuffer)
-{
-    bool isSuccess = ChanMuxClient_ctor(
-                        &testChanMuxClient,
-                        &chanMuxClientConfig);
-
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed to construct testChanMuxClient!");
-        return -1;
-    }
-
-    isSuccess = ProxyNVM_ctor(
-                    &testProxyNVM,
-                    &testChanMuxClient,
-                    proxyBuffer,
-                    PAGE_SIZE);
-
-    if (!isSuccess)
-    {
-        Debug_LOG_ERROR("Failed to construct testProxyNVM!");
-        return -1;
-    }
-
-    for(
-        uint8_t* iterator = writeData;
-        iterator < &writeData[TEST_DATA_SIZE];)
-    {
-        size_t leftSpaceSize      = &writeData[TEST_DATA_SIZE] - iterator;
-        size_t dataToBeCopiedSize = leftSpaceSize > sizeof(initData)
-                                        ? sizeof(initData)
-                                        : leftSpaceSize;
-
-        memcpy(iterator, initData, dataToBeCopiedSize);
-        iterator += dataToBeCopiedSize;
-    }
-
-    return 0;
-}
-
-void
-ProxyNVMTest_run_pos(size_t address, const char* testName)
-{
-    const bool result = (writeTest(address, testName)
-                      &&  readTest(address, testName)
-                      && eraseTest(address, testName));
-
-    Debug_LOG_ERROR(
-        "!!! %s => %s !!!",
-        testName,
-        result ? "SUCCESS" : "FAILURE");
-}
-
-void
-ProxyNVMTest_run_neg(size_t address, const char* testName)
-{
-    const bool result = (!writeTest(address, testName)
-                      && !readTest(address, testName)
-                      && !eraseTest(address, testName));
-
-    Debug_LOG_ERROR(
-        "!!! %s => %s !!!",
-        testName,
-        result ? "SUCCESS" : "FAILURE");
-}
-
 static
 bool
 writeTest(
@@ -255,4 +185,73 @@ eraseTest(
     Debug_LOG_INFO("%s: Memory was erased successfully!", testName);
 
     return true;
+}
+
+
+// Public functions ------------------------------------------------------------
+
+int ProxyNVMTest_init(char* proxyBuffer)
+{
+    bool isSuccess = ChanMuxClient_ctor(
+                        &testChanMuxClient,
+                        &chanMuxClientConfig);
+
+    if (!isSuccess)
+    {
+        Debug_LOG_ERROR("Failed to construct testChanMuxClient!");
+        return -1;
+    }
+
+    isSuccess = ProxyNVM_ctor(
+                    &testProxyNVM,
+                    &testChanMuxClient,
+                    proxyBuffer,
+                    PAGE_SIZE);
+
+    if (!isSuccess)
+    {
+        Debug_LOG_ERROR("Failed to construct testProxyNVM!");
+        return -1;
+    }
+
+    for(
+        uint8_t* iterator = writeData;
+        iterator < &writeData[TEST_DATA_SIZE];)
+    {
+        size_t leftSpaceSize      = &writeData[TEST_DATA_SIZE] - iterator;
+        size_t dataToBeCopiedSize = leftSpaceSize > sizeof(initData)
+                                        ? sizeof(initData)
+                                        : leftSpaceSize;
+
+        memcpy(iterator, initData, dataToBeCopiedSize);
+        iterator += dataToBeCopiedSize;
+    }
+
+    return 0;
+}
+
+void
+ProxyNVMTest_run_pos(size_t address, const char* testName)
+{
+    const bool result = (writeTest(address, testName)
+                      &&  readTest(address, testName)
+                      && eraseTest(address, testName));
+
+    Debug_LOG_ERROR(
+        "!!! %s => %s !!!",
+        testName,
+        result ? "SUCCESS" : "FAILURE");
+}
+
+void
+ProxyNVMTest_run_neg(size_t address, const char* testName)
+{
+    const bool result = (!writeTest(address, testName)
+                      && !readTest(address, testName)
+                      && !eraseTest(address, testName));
+
+    Debug_LOG_ERROR(
+        "!!! %s => %s !!!",
+        testName,
+        result ? "SUCCESS" : "FAILURE");
 }
