@@ -33,6 +33,7 @@ DeclareCAmkESComponent(
         lib_debug
         lib_macros
         proxy_nvm
+        chanmux_client
 )
 
 ChanMux_UART_DeclareCAmkESComponents(
