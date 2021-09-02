@@ -68,7 +68,7 @@ writeTest(
     else
     {
         Debug_LOG_ERROR(
-            "%s: Write failed! Tried to write %zu bytes but written only %zu "
+            "%s: Write failed! Tried to write %u bytes but written only %zu "
             "bytes.",
             testName,
             TEST_DATA_SIZE,
@@ -99,7 +99,7 @@ readTest(
     else
     {
         Debug_LOG_ERROR(
-            "%s: Read failed! Tried to read %zu bytes but read only %zu bytes.",
+            "%s: Read failed! Tried to read %u bytes but read only %zu bytes.",
             testName,
             TEST_DATA_SIZE,
             ret_value);
@@ -145,7 +145,7 @@ eraseTest(
     else
     {
         Debug_LOG_ERROR(
-            "%s: Erase failed! Tried to erase %zu bytes but erased only %zu "
+            "%s: Erase failed! Tried to erase %u bytes but erased only %zu "
             "bytes.",
             testName,
             TEST_DATA_SIZE,
@@ -167,7 +167,7 @@ eraseTest(
     else
     {
         Debug_LOG_ERROR(
-            "%s: Read after the erase failed! Tried to read %zu bytes but read "
+            "%s: Read after the erase failed! Tried to read %u bytes but read "
             "only %zu bytes.",
             testName,
             TEST_DATA_SIZE,
@@ -181,7 +181,7 @@ eraseTest(
         if (0xFF != readData[i])
         {
             Debug_LOG_ERROR(
-                "%s: Read values corrupted! On position %u expected 0xFF, but "
+                "%s: Read values corrupted! On position %zu expected 0xFF, but "
                 "read %02x",
                 testName,
                 i,
