@@ -1,19 +1,16 @@
 #
 # Test ChanMux/Proxy NVM
 #
-# Copyright (C) 2020, HENSOLDT Cyber GmbH
+# Copyright (C) 2020-2022, HENSOLDT Cyber GmbH
 #
 
 cmake_minimum_required(VERSION 3.7.2)
 
-os_set_config_file(system_config.h)
-
-
-
 #-------------------------------------------------------------------------------
-project(system_config C)
-add_library(${PROJECT_NAME} INTERFACE)
-target_include_directories(${PROJECT_NAME} INTERFACE ${CMAKE_CURRENT_LIST_DIR})
+# use the SDK
+find_package("os-sdk" REQUIRED)
+os_sdk_set_defaults()
+os_sdk_setup(CONFIG_FILE "system_config.h" CONFIG_PROJECT "system_config")
 
 
 #-------------------------------------------------------------------------------
@@ -43,5 +40,4 @@ ChanMux_UART_DeclareCAmkESComponents(
 )
 
 
-DeclareAndCreateCamkESSystem(main.camkes)
-GenerateSimulateScript()
+os_sdk_create_CAmkES_system("main.camkes")
