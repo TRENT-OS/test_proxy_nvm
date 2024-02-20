@@ -51,6 +51,9 @@ assembly {
 
         tester1.memorySizeBytes     = 36 * 1024 * 1024;
         tester2.memorySizeBytes     = 128 * 1024;
+
+        uart.priority         = 252;
+        chanMux_UART.priority = 253;
     }
 }
 
